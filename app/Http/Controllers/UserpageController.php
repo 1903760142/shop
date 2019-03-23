@@ -11,6 +11,10 @@ class UserpageController extends Controller
 {
     //个人中心页面
     public function userpage(){
-        return view('userpage');
+        $userlogin = '';
+        if(empty(session('LoginInfo'))){
+            $userlogin = 1;
+        }
+        return view('userpage',['userlogin'=>$userlogin]);
     }
 }

@@ -10,7 +10,7 @@ use App\Model\Index;
 
 class ShopcartController extends Controller
 {
-    //展示购物车
+    // 展示购物车
     public function shopcart()
     {
         $where = [
@@ -26,7 +26,7 @@ class ShopcartController extends Controller
         return view('shopcart', ['goodsInfo' => $goodsInfo,'data'=>$data]);
     }
 
-    //加入购物车
+    // 加入购物车
     public function shopcartAdd(Request $request)
     {
         $goods_id = $request->post('goods_id');
@@ -64,16 +64,16 @@ class ShopcartController extends Controller
 
     }
 
-    //购物车删除
+    // 购物车 删除 / 批量删除
     public function shopcartDel(Request $request){
-        $goods_id = $request->post('goods_id');
+        $goods_id = $request->goods_id;
         //dd($goods_id);
-        $where = [
-            'goods_id' => $goods_id,
-            'user_id' => session("LoginInfo.user_id"),
-        ];
-        //dd($where);
-        $res = Shopcart::where($where)->delete();
+        $goods_id = explode(',',$goods_id);
+        //dd($goods_id);
+        $cart = new Shopcart();
+        $res =  $cart->where('user_id',session("LoginInfo.user_id"))
+                     ->whereIn('goods_id',$goods_id)
+                     ->delete();
         if($res){
             echo 1;
         }else{
@@ -81,7 +81,7 @@ class ShopcartController extends Controller
         }
     }
 
-    //修改购物车商品数量
+    // 修改购物车商品数量
     public function shopcartNum(Request $request){
         $goods_num = $request->post('buy_num');
         $goods_id = $request->post('goods_id');
@@ -98,5 +98,9 @@ class ShopcartController extends Controller
 
     }
 
+    // 购物车总价
+    public function shopCartPrice(){
+        echo 1;
+    }
 
 }

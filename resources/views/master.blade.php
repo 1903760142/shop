@@ -25,14 +25,16 @@
     <link rel="stylesheet" href="{{url('layui/css/layui.css')}}">
     <link href="{{url('css/fsgallery.css')}}" rel="stylesheet" charset="utf-8">
     <link rel="stylesheet" href="{{url('css/swiper.min.css')}}">
-    <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="{{url('js/jquery-1.11.2.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url('css/cartlist.css')}}">
+    <link rel="stylesheet" href="{{url('css/paysuccess.css')}}">
     <script src="{{url('js/jquery190_1.js')}}" language="javascript" type="text/javascript"></script>
 
 </head>
 <body fnav="1" class="g-acc-bg">
     @yield('content')
     <!--底部导航-->
-    <div class="footer clearfix">
+    <div class="footer clearfix" id="clearfix">
         <ul>
             <li class="f_home"><a href="{{url('index')}}" class="hover"><i></i>潮购</a></li>
             <li class="f_announced"><a href="{{url('allshops')}}" ><i></i>所有商品</a></li>
