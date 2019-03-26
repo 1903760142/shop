@@ -14,7 +14,7 @@ class AddressController extends Controller
 {
     public function AddressIndex()
     {
-        $data = Address::all();
+        $data = Address::where('user_id',session('LoginInfo.user_id'))->get();
         return view('address', ['data' => $data]);
     }
 
@@ -90,7 +90,7 @@ class AddressController extends Controller
         }
     }
 
-    //修改地址
+    //修改地址页面
     public function AddressUpdate($address_id)
     {
         $data = Address::where('address_id', $address_id)->first();
@@ -108,7 +108,6 @@ class AddressController extends Controller
             'user_id' => session('LoginInfo.user_id')
         ];
         if ($data['is_default'] == 1) {
-            //开启事务
             DB::beginTransaction(); //开启事务
             $result = $address->where('user_id', session("LoginInfo.user_id"))->update(['is_default' => 2]);//改
             $res = $address->where($where)->update($data);//修改

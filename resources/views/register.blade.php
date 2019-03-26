@@ -18,7 +18,7 @@
                 <li class="accAndPwd">
                     <dl>
                         <s class="phone"></s><input id="userMobile" maxlength="11" type="number" placeholder="请输入您的手机号码" value="" />
-                        <span class="clear">x</span>
+                        <span class="clear"></span>
                     </dl>
                     <dl>
                         <s class="password"></s>
@@ -60,6 +60,7 @@
 </div>
 </body>
 @endsection
+
 @section('my-js')
     <script>
         $('.registerCon input').bind('keydown',function(){

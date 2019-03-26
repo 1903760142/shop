@@ -26,12 +26,12 @@
                 <li class="headimg">
                     <a href="">头像</a>
                     <s class="fr"></s>
-                    <span class="img fr"></span>
+                    <span class="img fr"><img src="/uploads/{{$data['user_img']}}" alt="" width="50px"></span>
                 </li>
                 <li>
                     <a href="">昵称</a>
                     <s class="fr"></s>
-                    <span class="fr">二大爷</span>
+                    <span class="fr">{{$data['user_name']}}</span>
                 </li>
                 <li>
                     <a href="">我的主页</a>
@@ -39,12 +39,12 @@
                 </li>
                 <li>
                     <a href="">手机号码</a>
-                    <span class="fr">400-666-2110</span>
+                    <span class="fr">{{$data['user_tel']}}</span>
                 </li>           
             </ul>     
         </div>
         <div class="quit">
-            <a href="">退出登录</a>
+            <a href="{{url('Userquit')}}">退出登录</a>
         </div>
     </div>
 

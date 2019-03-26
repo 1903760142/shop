@@ -17,9 +17,10 @@ class LoginController extends Controller
     //登录
     public function LoginAdd(Request $request){
         $LoginInfo = $request->post();
+        $login_name = $request->post('login_name');
         unset($LoginInfo['_token']);
         //dd($LoginInfo);
-        $res = User::where('user_name',$LoginInfo['login_name'])->first();
+        $res = User::where('user_name',$login_name)->first();
         //dd($res);
         //dd(session('verifycode'));
         //验证手机号和密码

@@ -56,7 +56,7 @@
             </div>
             <div class="paylip">我们提倡理性消费</div>
         </div>
-        <a id="btnPay" style="display: inline-block; text-align: center; background: red; width: 400px;" href="{{url('SuccessIndex')}}" class="orangeBtn fr w_account">立即支付</a>
+        <a id="btnPay" style="display: inline-block; text-align: center; background: red; width: 400px;" href="javascript:;" class="orangeBtn fr w_account">立即支付</a>
 
 
         <div class="paywrapp" style="display: none">
@@ -113,8 +113,6 @@
 
             }
 
-
-
             $('.net-pay a').click(function(){
                 if($(this).hasClass('checked')){
 
@@ -131,9 +129,6 @@
                 }
             })
         })
-
-
-
         // 密码框
         var payPassword = $("#payPassword_container"),
             _this = payPassword.find('i'),

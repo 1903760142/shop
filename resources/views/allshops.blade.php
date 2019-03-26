@@ -102,7 +102,7 @@
                                  @foreach($data as $v)
                                     <li id="23468">
                                     <span class="gList_l fl">
-                                        <a href="{{url('shopcontent')}}"><img class="lazy" src="/uploads/{{$v->goods_img}}"></a>
+                                        <a href="{{url("shopcontent/$v->goods_id")}}"><img class="lazy" src="/uploads/{{$v->goods_img}}"></a>
                                     </span>
                                         <input type="hidden" id="_token" name="_token" value="<?php echo csrf_token(); ?>">
                                         <div class="gList_r">

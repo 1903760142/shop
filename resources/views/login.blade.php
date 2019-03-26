@@ -36,7 +36,7 @@
                 <a id="btnLogin" href="javascript:;" class="orangeBtn loginBtn">登录</a>
             </div>
             <div class="forget">
-                <a href="https://m.1yyg.com/v44/passport/FindPassword.do">忘记密码？</a><b></b>
+                <a href="">忘记密码？</a><b></b>
                 <a href="{{url('register')}}">新用户注册</a>
             </div>
         </div>

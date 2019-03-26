@@ -21,7 +21,19 @@ route::any('allshops/{id?}','AllshopsController@allshops');
 route::any('allshopsSearch','AllshopsController@allshopsSearch');
 route::any('goodsInfo','AllshopsController@goodsInfo');
 //个人中心
-route::any('userpage','UserpageController@userpage')->middleware('login');
+route::any('userpage','UserpageController@userpage');
+//修改个人资料
+route::any('EdituserIndex','UserpageController@EdituserIndex');
+//超购记录
+route::any('BuyrecordIndex','UserpageController@BuyrecordIndex');
+//我的钱包
+route::any('MywalletIndex','UserpageController@MywalletIndex');
+//宣传我们
+route::any('InviteIndex','UserpageController@InviteIndex');
+//晒单
+route::any('WillshareIndex','UserpageController@WillshareIndex');
+//退出登录
+route::any('Userquit','UserpageController@Userquit');
 //商品详情
 route::any('shopcontent/{goods_id?}','ShopcontentController@shopcontent');
 //登录
@@ -53,5 +65,6 @@ route::any('AddressDefault','AddressController@AddressDefault');
 route::any('AddressDel','AddressController@AddressDel');
 route::any('AddressUpdate/{address_id?}','AddressController@AddressUpdate');
 route::any('AddressEdit','AddressController@AddressEdit');
+
 
 

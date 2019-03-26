@@ -7,6 +7,9 @@ use app\index\model\Record;
 use Illuminate\Support\Facades\DB;
 use App\Model\Shopcart;
 use App\Model\Index;
+use App\Model\Ordersite;
+use App\Model\Order;
+use App\Model\Orderdetail;
 
 class PaymentController extends Controller
 {
