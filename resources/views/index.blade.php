@@ -78,105 +78,13 @@
 		<div class="success-tip">
 			<div class="left-icon"></div>
 			<ul class="right-con">
-				<li>
+				@foreach($goodsInfo as $v)
+					<li>
 					<span style="color: #4E555E;">
-						<a href="./index.php?i=107&amp;c=entry&amp;id=10&amp;do=notice&amp;m=weliam_indiana" style="color: #4E555E;">恭喜<span class="username">啊啊啊</span>获得了<span>iphone7 红色 128G 闪耀你的眼</span></a>
+						<a href="./index.php?i=107&amp;c=entry&amp;id=10&amp;do=notice&amp;m=weliam_indiana" style="color: #4E555E;">恭喜<span class="username">{{$v['user_name']}}</span>获得了<span>{{$v['goods_name']}}</span></a>
 					</span>
-				</li>
-				<li>
-					<span style="color: #4E555E;">
-						<a href="./index.php?i=107&amp;c=entry&amp;id=10&amp;do=notice&amp;m=weliam_indiana" style="color: #4E555E;">恭喜<span class="username">啊啊啊</span>获得了<span>iphone7 红色 128G 闪耀你的眼</span></a>
-					</span>
-				</li>
-				<li>
-					<span style="color: #4E555E;">
-						<a href="./index.php?i=107&amp;c=entry&amp;id=10&amp;do=notice&amp;m=weliam_indiana" style="color: #4E555E;">恭喜<span class="username">啊啊啊</span>获得了<span>iphone7 红色 128G 闪耀你的眼</span></a>
-					</span>
-				</li>
-			</ul>
-		</div>
-		<!-- 倒計時 -->
-		<div class="endtime">
-			<ul class="endtime-list clearfix">
-				<li>
-					<a href="" class="endtime-img"><img src="images/goods1.jpg" alt=""></a>
-					<p>倒计时</p>
-					<div class="pro-state">
-						<div class="time-wrapper time" value="1500560400">
-							<em>02</em>
-							<span>:</span>
-							<em>24</em>
-							<span>:</span>
-							<em><i>8</i><i>4</i></em>
-						</div>
-					</div>
-				</li>
-				<li>
-					<a href="" class="endtime-img"><img src="images/goods1.jpg" alt=""></a>
-					<p>倒计时</p>
-					<div class="pro-state">
-						<div class="time-wrapper time" value="1500560400">
-							<em>02</em>
-							<span>:</span>
-							<em>24</em>
-							<span>:</span>
-							<em><i>8</i><i>4</i></em>
-						</div>
-					</div>
-				</li>
-				<li>
-					<a href="" class="endtime-img"><img src="images/goods1.jpg" alt=""></a>
-					<p>倒计时</p>
-					<div class="pro-state">
-						<div class="time-wrapper time" value="1500560400">
-							<em>02</em>
-							<span>:</span>
-							<em>24</em>
-							<span>:</span>
-							<em><i>8</i><i>4</i></em>
-						</div>
-					</div>
-				</li>
-				<li>
-					<a href="" class="endtime-img"><img src="images/goods1.jpg" alt=""></a>
-					<p>倒计时</p>
-					<div class="pro-state">
-						<div class="time-wrapper time"  value="1500560400">
-							<em>02</em>
-							<span>:</span>
-							<em>24</em>
-							<span>:</span>
-							<em><i>8</i><i>4</i></em>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<!-- 热门推荐 -->
-		<div class="line hot">
-			<div class="hot-content">
-				<i></i>
-				<span>潮人推荐</span>
-				<div class="l-left"></div>
-				<div class="l-right"></div>
-			</div>
-		</div>
-		<div class="hot-wrapper">
-			<ul class="clearfix">
-				<li style="border-right:1px solid #e4e4e4; ">
-					<a href="">
-						<p class="title">洋河 蓝色经典 海之蓝42度</p>
-						<p class="subtitle">洋河的，棉柔的，口感绵柔浓香型</p>
-						<img src="images/goods2.jpg" alt="">
-					</a>
-				</li>
-				<li>
-					<a href="">
-						<p class="title">洋河 蓝色经典 海之蓝42度</p>
-						<p class="subtitle">洋河的，棉柔的，口感绵柔浓香型</p>
-						<img src="images/goods2.jpg" alt="">
-					</a>
-				</li>
+					</li>
+				@endforeach
 			</ul>
 		</div>
 		<!-- 猜你喜欢 -->
@@ -207,7 +115,7 @@
 
 					</div>
 					<div class="btn-wrap" name="buyBox" limitbuy="0" surplus="58" totalnum="1625" alreadybuy="1567">
-						<a href="javascript:;" class="buy-btn" codeid="12751965">立即潮购</a>
+						<a href="{{url('PaymentIndex')}}" class="buy-btn" codeid="12751965">立即潮购</a>
 						<div class="gRate" codeid="12751965" canbuy="58">
 							<input type="hidden" value="{{$v->goods_id}}" class="goods_id">
 							<a href="javascript:;" id="cart"></a>
@@ -235,7 +143,16 @@
 				<a href="#"><i class="shopcar"></i>购物车</a>
 			</div>
 		</div>
-
+		<!--底部导航-->
+		<div class="footer clearfix" id="clearfix">
+			<ul>
+				<li class="f_home"><a href="{{url('index')}}" class="hover"><i></i>潮购</a></li>
+				<li class="f_announced"><a href="{{url('allshops')}}" ><i></i>所有商品</a></li>
+				<li class="f_single"><a href="javascript:;" ><i></i>最新揭晓</a></li>
+				<li class="f_car"><a id="btnCart" href="{{url('shopcart')}}" ><i></i>购物车</a></li>
+				<li class="f_personal"><a href="{{url('userpage')}}" ><i></i>我的潮购</a></li>
+			</ul>
+		</div>
 	</div>
 @endsection
 
@@ -267,8 +184,10 @@
                     function(res) {
                         if(res==1)
                         {
-                            console.log(res);
-                        }
+                            layer.msg('加入购物车成功');
+                        }else if(res == 5){
+                            layer.msg('请先登录');
+						}
                     }
                 )
             })

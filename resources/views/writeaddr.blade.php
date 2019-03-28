@@ -58,23 +58,16 @@ layui.use('form', function(){
   });
 });
 
-var area = new LArea();
-area.init({
-    'trigger': '#demo1',//触发选择控件的文本框，同时选择完毕后name属性输出到该位置
-    'valueTo':'#value1',//选择完毕后id属性输出到该位置
-    'keys':{id:'id',name:'name'},//绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
-    'type':1,//数据源类型
-    'data':LAreaData//数据源
-});
 </script>
 <script>
     $(function () {
         $(document).on('click',"#save",function () {
             var obj = {};
+            var reg1= /^\d{11}$/;
             obj.address_name = $("#address_name").val();
             obj.address_tel = $("#address_tel").val();
             obj.address_desc = $("#address_desc").val();
-            obj.area = $("#area").val();
+            obj.address_area = $("#area").val();
             var checked = $("#checked").prop('checked');
             var _token = $("#_token").val();
             //console.log(checked);
@@ -83,7 +76,25 @@ area.init({
             }else{
                 obj.is_default = 2;
             }
+            console.log(obj.address_name);
+            if(obj.address_name == ''){
+                layer.msg('收货人姓名不得为空');
+                return false;
+            }else if(obj.address_tel == ''){
+                layer.msg('收货人电话不得为空');
+                return false;
+            }else if(!reg1.test( obj.address_tel)){
+                layer.msg('收货人电话必须为11位纯数字');
+                return false;
+            }else if(obj.address_area == ''){
+                layer.msg('收货人地址不得为空');
+                return false;
+            }else if(obj.address_desc == ''){
+                layer.msg('收货人详细地址不得为空');
+                return false;
+            }
             //console.log(obj);
+
             $.post(
                 "{{url('AddressAdd')}}",
                 {obj:obj,_token:_token},

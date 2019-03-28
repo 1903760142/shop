@@ -17,14 +17,14 @@ class LoginController extends Controller
     //登录
     public function LoginAdd(Request $request){
         $LoginInfo = $request->post();
-        $login_name = $request->post('login_name');
+        $login_tel = $request->post('login_tel');
         unset($LoginInfo['_token']);
         //dd($LoginInfo);
-        $res = User::where('user_name',$login_name)->first();
+        $res = User::where('user_tel',$login_tel)->first();
         //dd($res);
         //dd(session('verifycode'));
         //验证手机号和密码
-        if($LoginInfo['login_name']!=$res['user_name']||$LoginInfo['login_pwd']!=decrypt($res['user_pwd'])){
+        if($LoginInfo['login_tel']!=$res['user_tel']||$LoginInfo['login_pwd']!=decrypt($res['user_pwd'])){
             echo 2;die;
         }
         //验证验证码
@@ -33,7 +33,7 @@ class LoginController extends Controller
         }
 
         $user['user_id'] = $res['user_id'];
-        $user['user_name'] = $res['user_name'];
+        $user['user_tel'] = $res['user_tel'];
         //dd($user);
         if(decrypt($res['user_pwd'])==$LoginInfo['login_pwd']){
             echo 1;

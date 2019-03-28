@@ -60,12 +60,12 @@
             <div class="goods-wrap thin-bor-top">
                 <ul class="goods-list clearfix">
                     @foreach($data as $v)
-                    <li>
+                    <li goods_id="{{$v->goods_id}}">
                         <a href="{{url("shopcontent/$v->goods_id")}}" class="g-pic">
                             <img src="/uploads/{{$v['goods_img']}}" width="136" height="136">
                         </a>
                         <p class="g-name">
-                            <a href="https://m.1yyg.com/v44/products/23458.do">(第<i>368671</i>潮){{$v['goods_name']}}</a>
+                            <a href="{{url("shopcontent/$v->goods_id")}}">(第<i>368671</i>潮){{$v['goods_name']}}</a>
                         </p>
                         <ins class="gray9">价值:￥{{$v['self_price']}}</ins>
                         <div class="btn-wrap">
@@ -77,13 +77,23 @@
                                 </p>
                             </div>
                             <div class="gRate" data-productid="23458">
-                                <a href="javascript:;"><s></s></a>
+                                <a href="javascript:;" id="cart"><s ></s></a>
                             </div>
                         </div>
                     </li>
                     @endforeach
                 </ul>
             </div>
+        </div>
+        <!--底部导航-->
+        <div class="footer clearfix" id="clearfix">
+            <ul>
+                <li class="f_home"><a href="{{url('index')}}"><i></i>潮购</a></li>
+                <li class="f_announced"><a href="{{url('allshops')}}" ><i></i>所有商品</a></li>
+                <li class="f_single"><a href="javascript:;" ><i></i>最新揭晓</a></li>
+                <li class="f_car"><a id="btnCart" href="{{url('shopcart')}}"  class="hover" ><i></i>购物车</a></li>
+                <li class="f_personal"><a href="{{url('userpage')}}" ><i></i>我的潮购</a></li>
+            </ul>
         </div>
     </div>
         <input type="hidden" id="_token" name="_token" value="<?php echo csrf_token(); ?>">
@@ -106,7 +116,7 @@
                 "{{url('shopcartNum')}}",
                 {buy_num:buy_num,_token:_token,goods_id:goods_id},
                 function (res) {
-                    console.log(res);
+                    // console.log(res);
                 }
             );
             GetCount();
@@ -121,23 +131,51 @@
             if(min.val()>1){
                 min.val(parseInt(min.val()) - 1);
                 GetCount();
+                $.post(
+                    "{{url('shopcartNum')}}",
+                    {buy_num:buy_num,_token:_token,goods_id:goods_id},
+                    function (res) {
+                        // console.log(res);
+                    }
+                )
             }
-            //console.log(buy_num);
-            $.post(
-                "{{url('shopcartNum')}}",
-                {buy_num:buy_num,_token:_token,goods_id:goods_id},
-                function (res) {
-                    console.log(res);
-                }
-            )
+
         })
         //数量框改变
         $(".text_box").blur(function () {
             var _this = $(this);
-            var buy_num = _this.attr("value");
+            var buy_num = _this.val();
             console.log(buy_num);
             var _token = $("#_token").val();
             var goods_id = _this.siblings("input[class='input']").val();
+            //console.log(goods_id);
+            $.post(
+                "{{url('shopcartNum')}}",
+                {buy_num:buy_num,_token:_token,goods_id:goods_id},
+                function (res) {
+
+                    console.log(res);
+                }
+            )
+            GetCount();
+        })
+        //点击购物车
+        $(document).on('click',"#cart",function () {
+            var _this = $(this);
+            var goods_id = _this.parents('li').attr('goods_id');
+            console.log(goods_id);
+            var _token = $("#_token").val();
+            var that = $(this);
+            $.post(
+                "{{url('shopcartAdd')}}",
+                {goods_id:goods_id,_token:_token},
+                function(res) {
+                    if(res==1)
+                    {
+                        history.go(0);
+                    }
+                }
+            )
         })
     });
     //删除
@@ -190,7 +228,7 @@
                         });
                     });
                 }else{
-                    layer.msg('删除失败',{icon:2});
+                    layer.msg('请至少勾选一件商品');
                 }
             }
         )
@@ -208,13 +246,15 @@
             }
         });
         goods_id = goods_id.substr(0,goods_id.length-1);
-        console.log(goods_id);
+        //console.log(goods_id);
         $.post(
             "{{url('paymentGoodId')}}",
             {goods_id:goods_id,_token:_token},
             function (res) {
                 if(res==1){
                     location.href="{{url('PaymentIndex')}}";
+                }else if(res==2){
+                    layer.msg('请至少勾选一件商品');
                 }
             }
         )

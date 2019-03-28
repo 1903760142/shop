@@ -100,32 +100,31 @@
                             <div class="goodList mui-scroll">
                                 <ul id="ulGoodsList" class="mui-table-view mui-table-view-chevron">
                                  @foreach($data as $v)
-                                    <li id="23468">
+                                        <li id="23468">
                                     <span class="gList_l fl">
                                         <a href="{{url("shopcontent/$v->goods_id")}}"><img class="lazy" src="/uploads/{{$v->goods_img}}"></a>
                                     </span>
-                                        <input type="hidden" id="_token" name="_token" value="<?php echo csrf_token(); ?>">
-                                        <div class="gList_r">
-                                            <h3 class="gray6">{{$v->goods_name}}</h3>
-                                            <em class="gray9">价值：￥{{$v->self_price}}</em>
-                                            <div class="gRate">
-                                                <div class="Progress-bar">
-                                                    <p class="u-progress">
+                                                <div class="gList_r">
+                                                    <a href="{{url("shopcontent/$v->goods_id")}}"><h3 class="gray6">{{$v->goods_name}}</h3></a>
+                                                    <em class="gray9">价值：￥{{$v->self_price}}</em>
+                                                    <div class="gRate">
+                                                        <div class="Progress-bar">
+                                                            <p class="u-progress">
                                                     <span style="width: 91.91286930395593%;" class="pgbar">
                                                         <span class="pging"></span>
                                                     </span>
-                                                    </p>
-                                                    <ul class="Pro-bar-li">
-                                                        <li class="P-bar01"><em>7342</em>已参与</li>
-                                                        <li class="P-bar02"><em>7988</em>总需人次</li>
-                                                        <li class="P-bar03"><em>646</em>剩余</li>
-                                                    </ul>
+                                                            </p>
+                                                            <ul class="Pro-bar-li">
+                                                                <li class="P-bar01"><em>7342</em>已参与</li>
+                                                                <li class="P-bar02"><em>7988</em>总需人次</li>
+                                                                <li class="P-bar03"><em>646</em>剩余</li>
+                                                            </ul>
+                                                        </div>
+                                                        <input type="hidden" value="{{$v->goods_id}}" class="goods_id">
+                                                        <a codeid="12785750" id="cart" canbuy="646"><s></s></a>
+                                                    </div>
                                                 </div>
-                                                <input type="hidden" value="{{$v->goods_id}}" class="goods_id">
-                                                <a codeid="12785750" id="cart" canbuy="646"><s></s></a>
-                                            </div>
-                                        </div>
-                                    </li>
+                                            </li>
                                  @endforeach
                                 </ul>
                             </div>
@@ -135,9 +134,20 @@
 
                 </div>
             </div>
+            <!--底部导航-->
+            <div class="footer clearfix" id="clearfix">
+                <ul>
+                    <li class="f_home"><a href="{{url('index')}}"><i></i>潮购</a></li>
+                    <li class="f_announced"><a href="{{url('allshops')}}" class="hover"><i></i>所有商品</a></li>
+                    <li class="f_single"><a href="javascript:;" ><i></i>最新揭晓</a></li>
+                    <li class="f_car"><a id="btnCart" href="{{url('shopcart')}}" ><i></i>购物车</a></li>
+                    <li class="f_personal"><a href="{{url('userpage')}}" ><i></i>我的潮购</a></li>
+                </ul>
+            </div>
         </div>
     </div>
     </body>
+    <input type="hidden" id="_token" name="_token" value="<?php echo csrf_token(); ?>">
 @endsection
 
 @section('my-js')
@@ -156,6 +166,12 @@
                 "{{url('shopcartAdd')}}",
                 {goods_id:goods_id,_token:_token},
                 function(res) {
+                    if(res==1)
+                    {
+                        layer.msg('加入购物车成功');
+                    }else if(res == 5){
+                        layer.msg('请先登录');
+                    }
                 }
             )
         })
@@ -207,14 +223,14 @@
 </script>
 <script>
    
-        jQuery(document).ready(function() {
-            $("img.lazy").lazyload({
-                placeholder : "images/loading2.gif",
-                effect: "fadeIn",
-            });
-
-
-        });
+        // jQuery(document).ready(function() {
+        //     $("img.lazy").lazyload({
+        //         placeholder : "images/loading2.gif",
+        //         effect: "fadeIn",
+        //     });
+        //
+        //
+        // });
     
 </script>
 <script>
@@ -224,114 +240,114 @@
     })
 </script>
 <script>
-    mui.init({
-        pullRefresh: {
-            container: '#pullrefresh',
-            down: {
-                contentdown : "下拉可以刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
-                contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
-                contentrefresh : "正在刷新...",
-                callback: pulldownRefresh
-            },
-            up: {
-                contentrefresh: '正在加载...',
-                callback: pullupRefresh
-            }
-        }
-    });
-    /**
-     * 下拉刷新具体业务实现
-     */
-    function pulldownRefresh() {
-        setTimeout(function() {
-            var table = document.body.querySelector('.mui-table-view');
-            var cells = document.body.querySelectorAll('.mui-table-view-cell');
-            for (var i = cells.length, len = i + 3; i < len; i++) {
-                var li = document.createElement('li');
-                var str='';
-                // li.className = 'mui-table-view-cell';
-                str += '<span class="gList_l fl">';        
-                str += '<img class="lazy" data-original="https://img.1yyg.net/GoodsPic/pic-200-200/20160908104402359.jpg" src="https://img.1yyg.net/GoodsPic/pic-200-200/20160908104402359.jpg" style="display: block;"/>';
-                str += '</span>';
-                str += '<div class="gList_r">';
-                str += '<h3 class="gray6">(第'+i+'云)苹果（Apple）iPhone 7 Plus 256G版 4G手机</h3>';        
-                str += '<em class="gray9">价值：￥7988.00</em>';
-                str += '<div class="gRate">';           
-                str += '<div class="Progress-bar">'    
-                str += '<p class="u-progress">';
-                str += '<span style="width: 91.91286930395593%;" class="pgbar">';
-                str += '<span class="pging"></span>';
-                str += '</span>';
-                str += '</p>';                
-                str += '<ul class="Pro-bar-li">';
-                str += '<li class="P-bar01"><em>7342</em>已参与</li>';
-                str += '<li class="P-bar02"><em>7988</em>总需人次</li>';
-                str += '<li class="P-bar03"><em>646</em>剩余</li>';
-                str += '</ul>';            
-                str += '</div>';           
-                str += '<a codeid="12785750" class="" canbuy="646"><s></s></a>';        
-                str += '</div>';    
-                str += '</div>';
-                //下拉刷新，新纪录插到最前面；
-                li.innerHTML = str;
-                table.insertBefore(li, table.firstChild);
-            }
-            mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-        }, 1500);
-    }
-    var count = 0;
-    /**
-     * 上拉加载具体业务实现
-     */
-    function pullupRefresh() {
-        setTimeout(function() {
-            mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-            var table = document.body.querySelector('.mui-table-view');
-            var cells = document.body.querySelectorAll('.mui-table-view-cell');
-            for (var i = cells.length, len = i + 20; i < len; i++) {
-                var li = document.createElement('li');
-                // li.className = 'mui-table-view-cell';
-                var str='';
-                str += '<span class="gList_l fl">';        
-                str += '<img class="lazy" data-original="https://img.1yyg.net/GoodsPic/pic-200-200/20160908104402359.jpg" src="https://img.1yyg.net/GoodsPic/pic-200-200/20160908104402359.jpg" style="display: block;"/>';
-                str += '</span>';
-                str += '<div class="gList_r">';
-                str += '<h3 class="gray6">(第'+i+'云)苹果（Apple）iPhone 7 Plus 256G版 4G手机</h3>';        
-                str += '<em class="gray9">价值：￥7988.00</em>';
-                str += '<div class="gRate">';           
-                str += '<div class="Progress-bar">'    
-                str += '<p class="u-progress">';
-                str += '<span style="width: 91.91286930395593%;" class="pgbar">';
-                str += '<span class="pging"></span>';
-                str += '</span>';
-                str += '</p>';                
-                str += '<ul class="Pro-bar-li">';
-                str += '<li class="P-bar01"><em>7342</em>已参与</li>';
-                str += '<li class="P-bar02"><em>7988</em>总需人次</li>';
-                str += '<li class="P-bar03"><em>646</em>剩余</li>';
-                str += '</ul>';            
-                str += '</div>';           
-                str += '<a codeid="12785750" class="" canbuy="646"><s></s></a>';        
-                str += '</div>';    
-                str += '</div>';
-                li.innerHTML = str;
-                table.appendChild(li);
-            }
-        }, 1500);
-    }
-    // if (mui.os.plus) {
-    //     mui.plusReady(function() {
-    //         setTimeout(function() {
-    //             mui('#pullrefresh').pullRefresh().pullupLoading();
-    //         }, 1000);
-
-    //     });
-    // } 
-    // else {
-    //     mui.ready(function() {
-    //         mui('#pullrefresh').pullRefresh().pullupLoading();
-    //     });
+    // mui.init({
+    //     pullRefresh: {
+    //         container: '#pullrefresh',
+    //         down: {
+    //             contentdown : "下拉可以刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+    //             contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+    //             contentrefresh : "正在刷新...",
+    //             callback: pulldownRefresh
+    //         },
+    //         up: {
+    //             contentrefresh: '正在加载...',
+    //             callback: pullupRefresh
+    //         }
+    //     }
+    // });
+    // /**
+    //  * 下拉刷新具体业务实现
+    //  */
+    // function pulldownRefresh() {
+    //     setTimeout(function() {
+    //         var table = document.body.querySelector('.mui-table-view');
+    //         var cells = document.body.querySelectorAll('.mui-table-view-cell');
+    //         for (var i = cells.length, len = i + 3; i < len; i++) {
+    //             var li = document.createElement('li');
+    //             var str='';
+    //             // li.className = 'mui-table-view-cell';
+    //             str += '<span class="gList_l fl">';
+    //             str += '<img class="lazy" data-original="https://img.1yyg.net/GoodsPic/pic-200-200/20160908104402359.jpg" src="https://img.1yyg.net/GoodsPic/pic-200-200/20160908104402359.jpg" style="display: block;"/>';
+    //             str += '</span>';
+    //             str += '<div class="gList_r">';
+    //             str += '<h3 class="gray6">(第'+i+'云)苹果（Apple）iPhone 7 Plus 256G版 4G手机</h3>';
+    //             str += '<em class="gray9">价值：￥7988.00</em>';
+    //             str += '<div class="gRate">';
+    //             str += '<div class="Progress-bar">'
+    //             str += '<p class="u-progress">';
+    //             str += '<span style="width: 91.91286930395593%;" class="pgbar">';
+    //             str += '<span class="pging"></span>';
+    //             str += '</span>';
+    //             str += '</p>';
+    //             str += '<ul class="Pro-bar-li">';
+    //             str += '<li class="P-bar01"><em>7342</em>已参与</li>';
+    //             str += '<li class="P-bar02"><em>7988</em>总需人次</li>';
+    //             str += '<li class="P-bar03"><em>646</em>剩余</li>';
+    //             str += '</ul>';
+    //             str += '</div>';
+    //             str += '<a codeid="12785750" class="" canbuy="646"><s></s></a>';
+    //             str += '</div>';
+    //             str += '</div>';
+    //             //下拉刷新，新纪录插到最前面；
+    //             li.innerHTML = str;
+    //             table.insertBefore(li, table.firstChild);
+    //         }
+    //         mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+    //     }, 1500);
     // }
+    // var count = 0;
+    // /**
+    //  * 上拉加载具体业务实现
+    //  */
+    // function pullupRefresh() {
+    //     setTimeout(function() {
+    //         mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+    //         var table = document.body.querySelector('.mui-table-view');
+    //         var cells = document.body.querySelectorAll('.mui-table-view-cell');
+    //         for (var i = cells.length, len = i + 20; i < len; i++) {
+    //             var li = document.createElement('li');
+    //             // li.className = 'mui-table-view-cell';
+    //             var str='';
+    //             str += '<span class="gList_l fl">';
+    //             str += '<img class="lazy" data-original="https://img.1yyg.net/GoodsPic/pic-200-200/20160908104402359.jpg" src="https://img.1yyg.net/GoodsPic/pic-200-200/20160908104402359.jpg" style="display: block;"/>';
+    //             str += '</span>';
+    //             str += '<div class="gList_r">';
+    //             str += '<h3 class="gray6">(第'+i+'云)苹果（Apple）iPhone 7 Plus 256G版 4G手机</h3>';
+    //             str += '<em class="gray9">价值：￥7988.00</em>';
+    //             str += '<div class="gRate">';
+    //             str += '<div class="Progress-bar">'
+    //             str += '<p class="u-progress">';
+    //             str += '<span style="width: 91.91286930395593%;" class="pgbar">';
+    //             str += '<span class="pging"></span>';
+    //             str += '</span>';
+    //             str += '</p>';
+    //             str += '<ul class="Pro-bar-li">';
+    //             str += '<li class="P-bar01"><em>7342</em>已参与</li>';
+    //             str += '<li class="P-bar02"><em>7988</em>总需人次</li>';
+    //             str += '<li class="P-bar03"><em>646</em>剩余</li>';
+    //             str += '</ul>';
+    //             str += '</div>';
+    //             str += '<a codeid="12785750" class="" canbuy="646"><s></s></a>';
+    //             str += '</div>';
+    //             str += '</div>';
+    //             li.innerHTML = str;
+    //             table.appendChild(li);
+    //         }
+    //     }, 1500);
+    // }
+    // // if (mui.os.plus) {
+    // //     mui.plusReady(function() {
+    // //         setTimeout(function() {
+    // //             mui('#pullrefresh').pullRefresh().pullupLoading();
+    // //         }, 1000);
+    //
+    // //     });
+    // // }
+    // // else {
+    // //     mui.ready(function() {
+    // //         mui('#pullrefresh').pullRefresh().pullupLoading();
+    // //     });
+    // // }
 </script>
 @endsection
 

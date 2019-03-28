@@ -7,6 +7,7 @@ use app\index\model\Record;
 use Illuminate\Support\Facades\DB;
 use App\Model\Index;
 use App\Model\User;
+use App\Model\Orderdetail;
 
 class UserpageController extends Controller
 {
@@ -27,9 +28,14 @@ class UserpageController extends Controller
         return view("edituser",['data'=>$data]);
     }
 
-    //超购记录
+    //潮购记录
     public function BuyrecordIndex(){
-        return view('buyrecord');
+        //人气商品
+        $goodsInfo = Index::orderBy('popularity','desc')->limit(4)->get();
+//        dd($goodsInfo);
+        $data = Orderdetail::where('user_id',session('LoginInfo.user_id'))->get()->toarray();
+//        dd($data);
+        return view('buyrecord',['data'=>$data,'goodsInfo'=>$goodsInfo]);
     }
 
     //我的钱包

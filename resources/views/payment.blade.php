@@ -38,9 +38,7 @@
         <p class="gray9">总需支付金额：<em class="orange"><i>￥</i>{{$price}}</em></p>
         <div class="other_pay marginB">
 
-            <a href="javascript:;" class="method leftmoney">
-                <i></i>账户总额：<span class="gray9">(￥<em>0.00</em>)</span><em class="orange fr"></em>
-            </a>
+
             <a href="javascript:;" class="wzf checked">
                 <b class="z-set"></b>第三方支付<em class="orange fr"><span class="colorbbb">需要支付&nbsp;</span><b>￥</b>{{$price}}</em>
             </a>
@@ -49,43 +47,11 @@
                     <span class="zfb"></span>
                     <b class="z-set"></b>
                 </a>
-                <a href="javascript:;" id="jdPay">
-                    <span class="kq"></span>
-                    <b class="z-set"></b>
-                </a>
             </div>
             <div class="paylip">我们提倡理性消费</div>
         </div>
-        <a id="btnPay" style="display: inline-block; text-align: center; background: red; width: 400px;" href="javascript:;" class="orangeBtn fr w_account">立即支付</a>
+        <a id="btnPay" style="display: inline-block; text-align: center; background: red; width: 400px;" href="{{url('AlipayIndex')}}" class="orangeBtn fr w_account">立即支付</a>
 
-
-        <div class="paywrapp" style="display: none">
-            <span class="lip">请输入支付密码</span>
-            <span class="title">潮人购充值</span>
-            <span class="money">￥<i>1.00</i></span>
-            <form action="" method="post" name="payPassword" id="form_paypsw">
-                <div id="payPassword_container" class="alieditContainer clearfix" data-busy="0">
-                    <div class="i-block" data-error="i_error">
-                        <div class="i-block six-password">
-                            <input class="i-text sixDigitPassword" id="payPassword_rsainput" type="password" autocomplete="off" required="required" value="" name="payPassword_rsainput" data-role="sixDigitPassword" tabindex="" maxlength="6" minlength="6" aria-required="true">
-                            <div tabindex="0" class="sixDigitPassword-box" style="width:99%;">
-                                <i style="width: 16%; border-color: transparent;" class=""><b style="visibility: hidden;"></b></i>
-                                <i style="width: 16%;" class=""><b style="visibility: hidden;"></b></i>
-                                <i style="width: 16%;" class=""><b style="visibility: hidden;"></b></i>
-                                <i style="width:16%;" class=""><b style="visibility: hidden;"></b></i>
-                                <i style="width: 16%;" class=""><b style="visibility: hidden;"></b></i>
-                                <i style="width: 16%;" class=""><b style="visibility: hidden;"></b></i>
-                                <!-- <span style="width: 16%; left: 285px; visibility: hidden;" id="cardwrap" data-role="cardwrap"></span> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <div class="submit">
-                <input type="submit" value="取消" class="button  cancel" id="cancelbtn">
-                <input type="submit" value="确定" class="button" id="subbtn">
-            </div>
-        </div>
     </div>
 @endsection
 
@@ -128,36 +94,6 @@
                     $(this).children('i').addClass('z-set').parents('a').siblings('a').children('i').removeClass('z-set');
                 }
             })
-        })
-        // 密码框
-        var payPassword = $("#payPassword_container"),
-            _this = payPassword.find('i'),
-            k=0,j=0,
-            password = '' ,
-            _cardwrap = $('#cardwrap');
-        //点击隐藏的input密码框,在6个显示的密码框的第一个框显示光标
-        payPassword.on('focus',"input[name='payPassword_rsainput']",function(){
-
-            var _this = payPassword.find('i');
-            if(payPassword.attr('data-busy') === '0'){
-                //在第一个密码框中添加光标样式
-                _this.eq(k).addClass("active");
-                _cardwrap.css('visibility','visible');
-                payPassword.attr('data-busy','1');
-            }
-
-        });
-        //change时去除输入框的高亮，用户再次输入密码时需再次点击
-        payPassword.on('change',"input[name='payPassword_rsainput']",function(){
-            _cardwrap.css('visibility','hidden');
-            _this.eq(k).removeClass("active");
-            payPassword.attr('data-busy','0');
-        }).on('blur',"input[name='payPassword_rsainput']",function(){
-
-            _cardwrap.css('visibility','hidden');
-            _this.eq(k).removeClass("active");
-            payPassword.attr('data-busy','0');
-
         });
 
         //使用keyup事件，绑定键盘上的数字按键和backspace按键
@@ -198,14 +134,6 @@
             }
         });
 
-
-        $('#btnPay').click(function(){
-            layer.open({
-                type: 1,
-                title: false,
-                content: $('.paywrapp')
-            })
-        })
 
     </script>
 @endsection

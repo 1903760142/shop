@@ -15,6 +15,7 @@ class ShopcartController extends Controller
     {
         $where = [
             'user_id' => session('LoginInfo.user_id'),
+            'cart_status'=>1,
         ];
         $goodsInfo = DB::table('shop_goods')
             ->join('shop_cart', 'shop_goods.goods_id', '=', 'shop_cart.goods_id')
@@ -29,6 +30,9 @@ class ShopcartController extends Controller
     // 加入购物车
     public function shopcartAdd(Request $request)
     {
+        if(session('LoginInfo') == ''){
+            echo 5 ;die;
+        }
         $goods_id = $request->post('goods_id');
         //dd($goods_id);
         $user_id = session('LoginInfo.user_id');
@@ -38,6 +42,7 @@ class ShopcartController extends Controller
         $cardwhere = [
             'user_id' => $user_id,
             'goods_id' => $goods_id,
+            'cart_status'=>1
         ];
         $cartInfo = Shopcart::where($cardwhere)->first();
         //dd($cartInfo);
@@ -73,7 +78,7 @@ class ShopcartController extends Controller
         $cart = new Shopcart();
         $res =  $cart->where('user_id',session("LoginInfo.user_id"))
                      ->whereIn('goods_id',$goods_id)
-                     ->delete();
+                     ->update(['cart_status'=>2]);
         if($res){
             echo 1;
         }else{

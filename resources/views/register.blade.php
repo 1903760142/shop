@@ -9,7 +9,7 @@
 <div class="m-block-header" id="div-header">
     <strong id="m-title">注册</strong>
     <a href="javascript:history.back();" class="m-back-arrow"><i class="m-public-icon"></i></a>
-    <a href="/" class="m-index-icon"><i class="m-public-icon"></i></a>
+    <a href="{{url('LoginIndex')}}" class="m-index-icon">去登录</a>
 </div>
     <div class="wrapper">
         <input name="hidForward" type="hidden" id="hidForward" />
@@ -17,20 +17,21 @@
             <ul>
                 <li class="accAndPwd">
                     <dl>
+                        <s class="phone"></s><input id="user_name" type="text" placeholder="请输入您的用户名"  />
+                    </dl>
+                    <dl>
                         <s class="phone"></s><input id="userMobile" maxlength="11" type="number" placeholder="请输入您的手机号码" value="" />
                         <span class="clear"></span>
                     </dl>
                     <dl>
                         <s class="password"></s>
-                        <input class="pwd" maxlength="11" type="text" placeholder="6-16位数字、字母组成" value="" />
-                        <input class="pwd" maxlength="11" type="password" placeholder="6-16位数字、字母组成" value="" style="display: none" />
+                        <input class="pwd" maxlength="11"  id="pwd" type="password" placeholder="6-16位数字、字母组成"  />
                         <span class="mr clear">x</span>
                         <s class="eyeclose"></s>
                     </dl>
                     <dl>
                         <s class="password"></s>
-                        <input class="conpwd" maxlength="11" id="user_pwd" type="text" placeholder="请确认密码" value="" />
-                        <input class="conpwd" maxlength="11" type="password" placeholder="请确认密码" value="" style="display: none" />
+                        <input class="conpwd" maxlength="11" id="user_pwd" type="password" placeholder="请确认密码" value="" />
                         <span class="mr clear">x</span>
                         <s class="eyeclose"></s>
                     </dl>
@@ -39,22 +40,10 @@
                     </dl>
 
                 </li>
-                <li><a id="btnNext" href="javascript:;" class="orangeBtn loginBtn">下一步</a></li>
+                <li><a id="btnNext" href="javascript:;" class="orangeBtn loginBtn">立即注册</a></li>
                 <input type="hidden" id="_token" name="_token" value="<?php echo csrf_token(); ?>">
             </ul>
         </div>
-
-
-<div class="footer clearfix" style="display:none;">
-    <ul>
-        <li class="f_home"><a href="/v44/index.do" ><i></i>云购</a></li>
-        <li class="f_announced"><a href="/v44/lottery/" ><i></i>最新揭晓</a></li>
-        <li class="f_single"><a href="/v44/post/index.do" ><i></i>晒单</a></li>
-        <li class="f_car"><a id="btnCart" href="/v44/mycart/index.do" ><i></i>购物车</a></li>
-        <li class="f_personal"><a href="/v44/member/index.do" ><i></i>我的云购</a></li>
-    </ul>
-</div>
-<div class="layui-layer-move"></div>
 
 
 </div>
@@ -109,51 +98,62 @@
                 }
             }
         })
-
         function registertel(){
-            // 手机号失去焦点
-            $('#userMobile').blur(function(){
-                reg=/^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|7[06-8])\d{8}$/;//验证手机正则(输入前7位至11位)
+           //点击立即注册
+            $('#btnNext').click(function(){
+                // 手机号
+                var user_name = $("#user_name").val();
+                var user_tel = $("#userMobile").val();
+                var pwd = $("#pwd").val();
+                var user_pwd = $("#user_pwd").val();
+                var reg1= /^\d{11}$/;
+                var reg2=/^[0-9a-zA-Z]{6,16}$/;
                 var that = $(this);
-
-                if( that.val()==""|| that.val()=="请输入您的手机号")
+                // 购物协议
+                if($("i[class='gou']").attr('class') == undefined){
+                    $("#btnNext").css('class','disabled');
+                    return false;
+                }
+                if(user_name == ''){
+                    layer.msg('请输入您的用户名！');
+                    return false;
+                }
+                else if( user_tel == '')
                 {
                     layer.msg('请输入您的手机号！');
+                    return false;
                 }
-                else if(that.val().length<11)
+                else if(!reg1.test(user_tel))
                 {
-                    layer.msg('您输入的手机号长度有误！');
-                }
-                else if(!reg.test($("#userMobile").val()))
-                {
-                    layer.msg('您输入的手机号不存在!');
-                }
-                else if(that.val().length == 11){
-                    // ajax请求后台数据
-                }
-            })
-            // 密码失去焦点
-            $('.pwd').blur(function(){
-                reg=/^[0-9a-zA-Z]{6,16}$/;
-                var that = $(this);
-                if( that.val()==""|| that.val()=="6-16位数字或字母组成")
-                {
-                    layer.msg('请设置您的密码！');
-                }else if(!reg.test($(".pwd").val())){
+                    layer.msg('手机号必须为11位的纯数字');
+                    return false;
+                }else if(pwd == ''){
+                    layer.msg('请设置您的密码');
+                    return false;
+                }else if(!reg2.test(pwd)){
                     layer.msg('请输入6-16位数字或字母组成的密码!');
-                }
-            })
-
-            // 重复输入密码失去焦点时
-            $('.conpwd').blur(function(){
-                var that = $(this);
-                var pwd1 = $('.pwd').val();
-                var pwd2 = that.val();
-                if(pwd1!=pwd2){
+                    return false;
+                }else  if(pwd != user_pwd){
                     layer.msg('您俩次输入的密码不一致哦！');
+                    return false;
                 }
-            })
 
+                //提交数据到控制器
+                var _token = $("#_token").val();
+                $.post(
+                    "{{url('registerAdd')}}",
+                    {user_name:user_name,user_pwd:user_pwd,_token:_token,user_tel:user_tel},
+                    function(res){
+                        if(res==1){
+                            layer.msg('注册成功',{time:2000},function(){
+                                location.href="{{url('LoginIndex')}}";
+                            });
+                        }else if(res==3){
+                            layer.msg('此手机号已被注册');
+                        }
+                    }
+                )
+            })
         }
         registertel();
         // 购物协议
@@ -162,35 +162,15 @@
             if(that.hasClass('gou')){
                 that.removeClass('gou').addClass('none');
                 $('#btnNext').css('background','#ddd');
+                layer.msg('请您勾选《666潮人购购物协议》');
+                return false;
 
             }else{
                 that.removeClass('none').addClass('gou');
                 $('#btnNext').css('background','#f22f2f');
+
             }
 
-        })
-        // 下一步提交
-        $('#btnNext').click(function(){
-            if($('#userMobile').val()==''){
-                layer.msg('请输入您的手机号！');
-            }else if($('.pwd').val()==''){
-                layer.msg('请输入您的密码!');
-            }else if($('.conpwd').val()==''){
-                layer.msg('请您再次输入密码！');
-            }
-            var user_name = $('#userMobile').val();
-            var user_pwd = $("#user_pwd").val();
-            //console.log(user_pwd);
-            var _token = $("#_token").val();
-            $.post(
-                "{{url('registerAdd')}}",
-                {user_name:user_name,user_pwd:user_pwd,_token:_token},
-                function(res){
-                    if(res==1){
-                        alert('注册成功');
-                    }
-                }
-            )
         })
 
 

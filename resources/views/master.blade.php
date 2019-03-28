@@ -33,23 +33,11 @@
 </head>
 <body fnav="1" class="g-acc-bg">
     @yield('content')
-    <!--底部导航-->
-    <div class="footer clearfix" id="clearfix">
-        <ul>
-            <li class="f_home"><a href="{{url('index')}}" class="hover"><i></i>潮购</a></li>
-            <li class="f_announced"><a href="{{url('allshops')}}" ><i></i>所有商品</a></li>
-            <li class="f_single"><a href="{{url('allshops')}}" ><i></i>最新揭晓</a></li>
-            <li class="f_car"><a id="btnCart" href="{{url('shopcart')}}" ><i></i>购物车</a></li>
-            <li class="f_personal"><a href="{{url('userpage')}}" ><i></i>我的潮购</a></li>
-        </ul>
-    </div>
-
 </body>
 <script src="{{url('js/jquery-1.11.2.min.js')}}"></script>
 <script src="{{url('layui/layui.js')}}"></script>
 <script src="{{url('js/all.js')}}"></script>
 <script src="{{url('js/index.js')}}"></script>
-<script src="{{url('js/lazyload.min.js')}}"></script>
 <script src="{{url('js/lazyload.min.js')}}"></script>
 <script src="{{url('js/mui.min.js')}}"></script>
 <script src="{{url('js/swiper.min.js')}}"></script>

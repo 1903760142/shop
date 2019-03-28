@@ -19,46 +19,25 @@ class RegisterController extends Controller
         $data = $request->post();
         unset($data['_token']);
         //dd($data);
-        $user = new User;
-        $user->user_name = $data['user_name'];
-        $user->user_pwd = encrypt($data['user_pwd']);
-        $res = $user->save();
-        if($res){
-            echo 1;
+        $userInfo = User::where('user_tel',$data['user_tel'])->first();
+        //dd($userInfo);
+        if(empty($userInfo)){
+            $user = new User;
+            $user->user_tel = $data['user_tel'];
+            $user->user_name = $data['user_name'];
+            $user->user_pwd = encrypt($data['user_pwd']);
+            $res = $user->save();
+            if($res){
+                echo 1;
+            }else{
+                echo 2;
+            }
         }else{
-            echo 2;
+            echo 3;
         }
+
     }
 
-
-    //注册执行
-    public function registerDo(CheckForm $request)
-    {
-        $request->validated();
-        //验证短信验证码
-        if(session('code')!=$request->code){
-            echo '验证码错误,请重新输入';die;
-        }
-
-        $u_name=$request->u_name;
-        //验证手机号码是否一致
-        if(session('mobile')!=$u_name){
-            echo '手机号与验证码不匹配';die;
-        }
-        $user=new User();
-        //接收数据
-        $user->u_name=$u_name;
-        $user->u_pwd=encrypt($request->u_pwd);
-        $res=$user->save();
-//        获取保存的id
-        $u_id=$user->u_id;
-        if($res){
-            session(['u_id'=>$u_id,'username'=>$u_name]);
-            echo 1;
-        }else{
-            echo '注册失败';
-        }
-    }
 
     //发送短信验证码
     public function note($mobile){

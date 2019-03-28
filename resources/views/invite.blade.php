@@ -36,13 +36,13 @@
 		        <li class="-mob-share-weibo"><p>新浪微博</p></li>
 		        <li class="-mob-share-qq"><p>QQ好友</p></li>
 		        <li class="-mob-share-qzone"><p>QQ空间</p></li>
-		        
+
 		    </ul>
 		    <div class="-mob-share-close">取消</div>
 		</div>
 		<div class="-mob-share-ui-bg"></div>
 	</div>
-		
+
 </div>
 <!--MOB SHARE BEGIN-->
 
@@ -60,9 +60,6 @@ mobShare.config( {
     }
 
 } );
-</script>
-
-
 </script>
 </body>
 </html>
